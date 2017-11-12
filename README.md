@@ -1,8 +1,6 @@
 # Tamashii::Config
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/tamashii/config`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Abstract configurable object for tamashii
 
 ## Installation
 
@@ -22,7 +20,53 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+### Global Config
+
+```ruby
+Tamashii::Config.add :name
+Tamashii::Config.name = 'Tamashii'
+```
+
+```ruby
+Tamashii::Config.register :agent, Tamashii::Agent.config
+Tamashii::Config.agent.name # => "Agent Name"
+```
+
+### Type Check
+
+```ruby
+Tamashii::Config.add :name, as: String
+Tamashii::Config.name = 1 # raise Tamashii::Config::Attribute::TypeMismatchError
+```
+
+### Configurable
+
+```ruby
+class AgentConfig
+  include Tamashii::Configurable
+
+  config :server, as: String
+  config :port, as: Integer
+end
+
+config = AgentConfig.new
+config.server = 'wss://tamashii.io'
+config.port = 443
+```
+
+### Delegate
+
+```ruby
+class AgentConfig
+  include Tamashii::Configurable
+
+  # Hash object is allowed
+  config :token, to: Tamashii::Config
+end
+
+config = AgentConfig.new
+config.token # => Tamashii::Config.token
+```
 
 ## Development
 
