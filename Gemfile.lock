@@ -1,7 +1,8 @@
 PATH
   remote: .
   specs:
-    tamashii-config (0.1.0)
+    tamashii-config (0.2.0)
+      tamashii-hookable
 
 GEM
   remote: https://rubygems.org/
@@ -41,6 +42,7 @@ GEM
       ruby-progressbar (~> 1.7)
       unicode-display_width (~> 1.0, >= 1.0.1)
     ruby-progressbar (1.9.0)
+    tamashii-hookable (0.1.0)
     unicode-display_width (1.3.0)
 
 PLATFORMS

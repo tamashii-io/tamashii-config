@@ -3,6 +3,7 @@
 require 'tamashii/config/version'
 require 'tamashii/config/attribute'
 require 'tamashii/configurable'
+require 'tamashii/hookable'
 
 module Tamashii
   # Tamashii Config module
@@ -12,6 +13,20 @@ module Tamashii
     # :nodoc:
     class Shared
       include Configurable
+
+      def initialize
+        Tamashii::Hook.run(:config, self)
+      end
+
+      def add(name, options = {})
+        self.class.config(name, options)
+      end
+
+      def register(name, configurable)
+        raise NotConfigurableError unless configurable.is_a?(Configurable)
+        add(name)
+        self[name] = configurable
+      end
     end
 
     class << self
@@ -22,16 +37,6 @@ module Tamashii
       def method_missing(name, *args, &block)
         return super unless shared.respond_to?(name)
         shared.send(name, *args, &block)
-      end
-
-      def add(name, options = {})
-        Shared.config(name, options)
-      end
-
-      def register(name, configurable)
-        raise NotConfigurableError unless configurable.is_a?(Configurable)
-        add(name)
-        shared[name] = configurable
       end
 
       private
