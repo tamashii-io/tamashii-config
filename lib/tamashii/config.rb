@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'tamashii/config/version'
 
 module Tamashii
