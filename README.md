@@ -39,6 +39,13 @@ Tamashii::Config.add :name, as: String
 Tamashii::Config.name = 1 # raise Tamashii::Config::Attribute::TypeMismatchError
 ```
 
+### Default Value
+
+```ruby
+Tamashii::Config.add :name, as: String, default: 'Tamashii'
+Tamashii::Config.name # => 'Tamashii'
+```
+
 ### Configurable
 
 ```ruby
