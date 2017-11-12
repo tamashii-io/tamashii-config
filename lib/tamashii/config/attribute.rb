@@ -36,6 +36,7 @@ module Tamashii
 
       def initialize(name, options = {})
         @name = name.to_sym
+        @type = nil
         @type = options[:as] if options[:as].is_a?(Class)
         @default = options[:default]
         @to = options[:to]
@@ -56,6 +57,7 @@ module Tamashii
       protected
 
       def validate_type_of(value)
+        return if @type.nil?
         raise TypeMismatchError unless value.is_a?(@type)
       end
     end

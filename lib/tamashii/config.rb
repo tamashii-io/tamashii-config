@@ -7,6 +7,8 @@ require 'tamashii/configurable'
 module Tamashii
   # Tamashii Config module
   module Config
+    class NotConfigurableError < StandardError; end
+
     # :nodoc:
     class Shared
       include Configurable
@@ -24,6 +26,12 @@ module Tamashii
 
       def add(name, options = {})
         Shared.config(name, options)
+      end
+
+      def register(name, configurable)
+        raise NotConfigurableError unless configurable.is_a?(Configurable)
+        add(name)
+        shared[name] = configurable
       end
 
       private
